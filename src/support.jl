@@ -1,3 +1,44 @@
+function split(x::UInt64)
+    hi = x & 0xffff_ffff_0000_0000
+    lo = x & 0x0000_0000_ffff_ffff
+    hi, lo
+end
+
+function split(x::Int64)
+    s, absx = signbit(x), abs(x)
+    hi = absx & 0xffff_ffff_0000_0000
+    lo = absx & 0x0000_0000_ffff_ffff
+    s, hi, lo
+end
+
+function split(x::UInt32)
+    hi = x & 0xffff_0000
+    lo = x & 0x0000_ffff
+    hi, lo
+end
+
+function split(x::Int32)
+    s, absx = signbit(x), abs(x)
+    hi = absx & 0xffff_0000
+    lo = absx & 0x0000_ffff
+    s, hi, lo
+end
+
+function split(x::UInt16)
+    hi = x & 0xff00
+    lo = x & 0x00ff
+    hi, lo
+end
+
+function split(x::Int32)
+    s, absx = signbit(x), abs(x)
+    hi = absx & 0xff00
+    lo = absx & 0x00ff
+    s, hi, lo
+end
+
+
+
 typed_decompose(x::T) where {T} = (T, Base.decompose(x)...)
   
 function typed_recompose(::Type{T}, significand::I, exponent::I, sign::I) where {T, I<:Integer}
